@@ -101,6 +101,7 @@
   (global-set-key (kbd "RET") 'newline-and-indent)
   (global-set-key (kbd "C-t") 'toggle-truncate-lines)
   (global-set-key (kbd "C-o") 'other-window)
+  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
   (when mac?
     (global-set-key (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
     (setq ns-command-modifier 'meta)
