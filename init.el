@@ -9,10 +9,9 @@
 ;; load-pathを設定します。
 
 (defun set-load-path ()
-  (dolist (path '("elisp"))
-    (let ((default-directory (expand-file-name (concat user-emacs-directory path))))
-      (add-to-list 'load-path default-directory)
-      (normal-top-level-add-subdirs-to-load-path))))
+  (let ((default-directory (expand-file-name (concat user-emacs-directory "elisp"))))
+    (add-to-list 'load-path default-directory)
+    (normal-top-level-add-subdirs-to-load-path)))
 
 ;; exec-pathを設定します。
 
