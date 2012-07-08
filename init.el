@@ -45,30 +45,19 @@
 
 ;; フォントを設定します。
 
-(defun set-english-font-for-mac ()
-  (set-face-attribute 'default nil
-                      :family "Menlo"
-                      :height 120))
-
-(defun set-japanese-font-for-mac ()
-  (set-fontset-font nil 'japanese-jisx0208
-                    (font-spec :family "Hiragino Kaku Gothic Pro")))
-
-(defun set-font-rescale-for-mac ()
+(defun set-font-for-mac ()
+  (set-face-attribute 'default nil :family "Menlo" :height 120)
+  (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Hiragino Kaku Gothic Pro"))
   (setq face-font-rescale-alist '((".*Menlo.*"    . 1.0)
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-font-for-linux ()
-  (set-face-attribute 'default nil
-		      :family "VL Gothic"
-		      :height 90))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
 (defun set-font ()
   (when window-system
     (when mac?
-      (set-english-font-for-mac)
-      (set-japanese-font-for-mac)
-      (set-font-rescale-for-mac))
+      (set-font-for-mac))
     (when linux?
       (set-font-for-linux))))
 
@@ -82,6 +71,7 @@
   (when mac?
     (setq-default line-spacing 4))
   (when linux?
+    (setq-default line-spacing 2)
     (menu-bar-mode 0)))
 
 ;; 動作を設定します。
@@ -95,32 +85,34 @@
   (when linux?
     (setq x-select-enable-clipboard t)))
 
-;; キーを設定します。
+;; キーボードを設定します。
 
 (defun set-keyboard ()
-  (global-set-key (kbd "RET") 'newline-and-indent)
-  (global-set-key (kbd "C-t") 'toggle-truncate-lines)
-  (global-set-key (kbd "C-o") 'other-window)
-  (global-set-key (kbd "M-y") 'anything-show-kill-ring)
+  (define-key global-map (kbd "RET") 'newline-and-indent)
+  (define-key global-map (kbd "C-t") 'toggle-truncate-lines)
+  (define-key global-map (kbd "C-o") 'other-window)
+  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+  (require 'dired)
+  (define-key dired-mode-map (kbd "C-o") 'other-window)
   (when mac?
-    (global-set-key (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
+    (define-key global-map (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
     (setq ns-command-modifier 'meta)
     (setq ns-alternate-modifier 'super)))
 
 ;; Input Methodを設定します。
 
-(defun set-input-method-for-mac ()
+(defun init-input-method-for-mac ()
   (setq default-input-method "MacOSX"))
 
-(defun set-input-method-for-linux ()
+(defun init-input-method-for-linux ()
   (require 'mozc)
   (setq default-input-method "japanese-mozc"))
 
-(defun set-input-method ()
+(defun init-input-method ()
   (when mac?
-    (set-input-method-for-mac))
+    (init-input-method-for-mac))
   (when linux?
-    (set-input-method-for-linux)))
+    (init-input-method-for-linux)))
 
 ;; anythingを設定します。
 
@@ -159,8 +151,8 @@
 (set-appearance)
 (set-behavior)
 (set-keyboard)
-(set-input-method)
 
+(init-input-method)
 (init-anything)
 (init-text-mode)
 (init-emacs-lisp-mode)
