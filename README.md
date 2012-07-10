@@ -1,7 +1,7 @@
 emacs.d
 ========================================
 
-My ".emacs.d/init.el" file for me.
+My .emacs.d files for me.
 
 Packages I use.
 ========================================
