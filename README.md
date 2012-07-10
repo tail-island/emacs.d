@@ -13,3 +13,8 @@ Packages I use.
 * haskell-mode
 * slime
 * slime-repl
+
+elisp I added.
+=======================================
+
+* ruby-mode
