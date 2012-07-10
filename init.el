@@ -120,6 +120,22 @@
   (define-key global-map (kbd "C-;") 'anything)
   (put 'upcase-region 'disabled nil))
 
+;; Ruby modeを設定します。
+
+(defun ruby-mode-hook-handler ()
+  (inf-ruby-keys))
+
+(defun init-ruby-mode ()
+  (require 'ruby-mode)
+  (add-to-list 'auto-mode-alist
+               '("\\.rb$" . ruby-mode))
+  (add-to-list 'interpreter-mode-alist
+               '("ruby" . ruby-mode))
+  (require 'inf-ruby)
+  (add-hook 'ruby-mode-hook
+            'ruby-mode-hook-handler)
+  (setq exec-path (append '("~/.rvm/bin") exec-path)))
+
 ;; Emacs Lisp modeを設定します。
 
 (defun emacs-lisp-mode-hook-handler ()
@@ -154,5 +170,6 @@
 
 (init-input-method)
 (init-anything)
+(init-ruby-mode)
 (init-emacs-lisp-mode)
 (init-text-mode)
