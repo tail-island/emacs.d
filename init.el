@@ -79,7 +79,7 @@
 (defun set-behavior ()
   (setq inhibit-startup-message t)
   (setq ring-bell-function 'ignore)
-  (setq-default indent-tabs-mode 0)
+  (setq-default indent-tabs-mode nil)
   (setq make-backup-files nil)
   (setq auto-save-default nil)
   (when linux?
@@ -120,15 +120,6 @@
   (define-key global-map (kbd "C-;") 'anything)
   (put 'upcase-region 'disabled nil))
 
-;; Text modeを設定します。
-
-(defun text-mode-hook-handler ()
-  (auto-fill-mode t))
-
-(defun init-text-mode ()
-  (add-hook 'text-mode-hook
-	    'text-mode-hook-handler))
-
 ;; Emacs Lisp modeを設定します。
 
 (defun emacs-lisp-mode-hook-handler ()
@@ -138,6 +129,15 @@
 (defun init-emacs-lisp-mode ()
   (add-hook 'emacs-lisp-mode-hook
             'emacs-lisp-mode-hook-handler))
+
+;; Text modeを設定します。
+
+(defun text-mode-hook-handler ()
+  (auto-fill-mode t))
+
+(defun init-text-mode ()
+  (add-hook 'text-mode-hook
+            'text-mode-hook-handler))
 
 ;; これまでに定義した関数を呼び出して、実際の設定をします。
 
@@ -154,5 +154,5 @@
 
 (init-input-method)
 (init-anything)
-(init-text-mode)
 (init-emacs-lisp-mode)
+(init-text-mode)
