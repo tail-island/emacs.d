@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-font-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 90))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
 (defun set-font ()
   (when window-system
@@ -136,6 +136,23 @@
             'ruby-mode-hook-handler)
   (setq exec-path (append '("~/.rvm/bin") exec-path)))
 
+;; C modeを設定します。
+
+(defun init-c-mode ()
+  (setq c-basic-offset 2))
+
+;; C# modeを設定します。
+
+(defun csharp-mode-hook-handler ()
+  (c-set-offset 'substatement-open 0)
+  (c-set-offset 'case-label '+)
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-close 0))
+
+(defun init-csharp-mode ()
+  (add-hook 'csharp-mode-hook
+            'csharp-mode-hook-handler))
+
 ;; Emacs Lisp modeを設定します。
 
 (defun emacs-lisp-mode-hook-handler ()
@@ -171,5 +188,7 @@
 (init-input-method)
 (init-anything)
 (init-ruby-mode)
+(init-c-mode)
+(init-csharp-mode)
 (init-emacs-lisp-mode)
 (init-text-mode)
