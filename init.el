@@ -69,7 +69,7 @@
   (fringe-mode 0)
   (column-number-mode t)
   (when mac?
-    (setq-default line-spacing 4))
+    (setq-default line-spacing 2))
   (when linux?
     (setq-default line-spacing 2)
     (menu-bar-mode 0)))
