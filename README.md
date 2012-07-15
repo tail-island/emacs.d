@@ -3,7 +3,7 @@ emacs.d
 
 My .emacs.d files for me.
 
-Packages I use.
+Packages I installed.
 ========================================
 
 * anything
@@ -14,7 +14,7 @@ Packages I use.
 * slime
 * slime-repl
 
-elisp I added.
+elisps I installed.
 =======================================
 
 * ruby-mode
