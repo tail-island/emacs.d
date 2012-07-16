@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-font-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
 
 (defun set-font ()
   (when window-system
