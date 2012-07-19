@@ -10,6 +10,7 @@ Packages I installed.
 * anything-config
 * clojure-mode
 * clojure-test-mode
+* csharp-mode
 * haskell-mode
 * slime
 * slime-repl
