@@ -85,6 +85,12 @@
   (when linux?
     (setq x-select-enable-clipboard t)))
 
+;; インデントを設定します。
+
+(defun set-indent ()
+  (setq c-basic-offset    2)
+  (setq css-indent-offset 2))
+
 ;; キーボードを設定します。
 
 (defun set-keyboard ()
@@ -136,11 +142,6 @@
             'ruby-mode-hook-handler)
   (setq exec-path (append '("~/.rvm/bin") exec-path)))
 
-;; C modeを設定します。
-
-(defun init-c-mode ()
-  (setq c-basic-offset 2))
-
 ;; C# modeを設定します。
 
 (defun csharp-mode-hook-handler ()
@@ -183,12 +184,12 @@
 (set-font)
 (set-appearance)
 (set-behavior)
+(set-indent)
 (set-keyboard)
 
 (init-input-method)
 (init-anything)
 (init-ruby-mode)
-(init-c-mode)
 (init-csharp-mode)
 (init-emacs-lisp-mode)
 (init-text-mode)
