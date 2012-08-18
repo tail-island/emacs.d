@@ -66,12 +66,12 @@
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  (fringe-mode 0)
+  ;; (fringe-mode 0)
   (column-number-mode t)
   (when mac?
     (setq-default line-spacing 2))
   (when linux?
-    (setq-default line-spacing 2)
+    (setq-default line-spacing 1)
     (menu-bar-mode 0)))
 
 ;; 動作を設定します。
