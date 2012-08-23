@@ -66,7 +66,7 @@
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  (fringe-mode 0)
+  ;; (fringe-mode 0)
   (column-number-mode t)
   (when mac?
     (setq-default line-spacing 2))
@@ -164,6 +164,17 @@
   (add-hook 'emacs-lisp-mode-hook
             'emacs-lisp-mode-hook-handler))
 
+;; はてなモードを設定します。
+
+(defun hatena-diary-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-hatena-diary-mode ()
+  (require 'hatena-diary-mode)
+  (setq hatena-usrid "tailisland")
+  (add-hook 'hatena-diary-mode-hook
+            'hatena-diary-mode-hook-handler))
+
 ;; Text modeを設定します。
 
 (defun text-mode-hook-handler ()
@@ -192,4 +203,5 @@
 (init-ruby-mode)
 (init-csharp-mode)
 (init-emacs-lisp-mode)
+(init-hatena-diary-mode)
 (init-text-mode)
