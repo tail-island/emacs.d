@@ -71,7 +71,7 @@
   (when mac?
     (setq-default line-spacing 2))
   (when linux?
-    (setq-default line-spacing 2)
+    (setq-default line-spacing 1)
     (menu-bar-mode 0)))
 
 ;; 動作を設定します。
