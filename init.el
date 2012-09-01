@@ -45,21 +45,21 @@
 
 ;; フォントを設定します。
 
-(defun set-font-for-mac ()
+(defun set-face-for-mac ()
   (set-face-attribute 'default nil :family "Menlo" :height 120)
   (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Hiragino Kaku Gothic Pro"))
   (setq face-font-rescale-alist '((".*Menlo.*"    . 1.0)
                                   (".*Hiragino.*" . 1.2))))
 
-(defun set-font-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
+(defun set-face-for-linux ()
+  (set-face-attribute 'default nil :family "VL Gothic" :height 100))
 
-(defun set-font ()
+(defun set-face ()
   (when window-system
     (when mac?
-      (set-font-for-mac))
+      (set-face-for-mac))
     (when linux?
-      (set-font-for-linux))))
+      (set-face-for-linux))))
 
 ;; 見た目を設定します。
 
@@ -192,7 +192,7 @@
 (init-package-el)
 
 (set-language)
-(set-font)
+(set-face)
 (set-appearance)
 (set-behavior)
 (set-indent)
