@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 100))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
 
 (defun set-face ()
   (when window-system
@@ -71,7 +71,7 @@
   (when mac?
     (setq-default line-spacing 2))
   (when linux?
-    (setq-default line-spacing 1)
+    (setq-default line-spacing 2)
     (menu-bar-mode 0)))
 
 ;; 動作を設定します。
