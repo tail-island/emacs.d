@@ -66,13 +66,9 @@
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
-  ;; (fringe-mode 0)
+  (fringe-mode 0)
   (column-number-mode t)
-  (when mac?
-    (setq-default line-spacing 2))
-  (when linux?
-    (setq-default line-spacing 2)
-    (menu-bar-mode 0)))
+  (setq-default line-spacing 2))
 
 ;; 動作を設定します。
 
@@ -142,18 +138,6 @@
             'ruby-mode-hook-handler)
   (setq exec-path (append '("~/.rvm/bin") exec-path)))
 
-;; C# modeを設定します。
-
-(defun csharp-mode-hook-handler ()
-  (c-set-offset 'substatement-open 0)
-  (c-set-offset 'case-label '+)
-  (c-set-offset 'arglist-intro '+)
-  (c-set-offset 'arglist-close 0))
-
-(defun init-csharp-mode ()
-  (add-hook 'csharp-mode-hook
-            'csharp-mode-hook-handler))
-
 ;; Emacs Lisp modeを設定します。
 
 (defun emacs-lisp-mode-hook-handler ()
@@ -201,7 +185,6 @@
 (init-input-method)
 (init-anything)
 (init-ruby-mode)
-(init-csharp-mode)
 (init-emacs-lisp-mode)
 (init-hatena-diary-mode)
 (init-text-mode)
