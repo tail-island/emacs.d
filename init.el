@@ -65,6 +65,8 @@
 
 (defun set-appearance ()
   (scroll-bar-mode 0)
+  (when linux?
+    (menu-bar-mode 0))
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
