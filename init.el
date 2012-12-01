@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
 (defun set-face ()
   (when window-system
@@ -70,7 +70,7 @@
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
-  (setq-default line-spacing 2))
+  (setq-default line-spacing 4))
 
 ;; 動作を設定します。
 
