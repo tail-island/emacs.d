@@ -132,11 +132,31 @@
   (add-to-list 'auto-mode-alist
                '("\\.rb$" . ruby-mode))
   (add-to-list 'interpreter-mode-alist
-               '("ruby" . ruby-mode))
+               '("ruby"   . ruby-mode))
   (require 'inf-ruby)
   (add-hook 'ruby-mode-hook
             'ruby-mode-hook-handler)
   (setq exec-path (append '("~/.rvm/bin") exec-path)))
+
+;; Rinariを設定します。
+
+(defun rhtml-mode-hook-handler ()
+  (rinari-launch))
+
+(defun init-rinari ()
+  (require 'rinari)
+  (require 'rhtml-mode)
+  (add-hook 'rhtml-mode-hook
+            'rhtml-mode-hook-handler))
+
+;; Text modeを設定します。
+
+(defun text-mode-hook-handler ()
+  (auto-fill-mode t))
+
+(defun init-text-mode ()
+  (add-hook 'text-mode-hook
+            'text-mode-hook-handler))
 
 ;; Emacs Lisp modeを設定します。
 
@@ -147,26 +167,6 @@
 (defun init-emacs-lisp-mode ()
   (add-hook 'emacs-lisp-mode-hook
             'emacs-lisp-mode-hook-handler))
-
-;; はてなモードを設定します。
-
-(defun hatena-diary-mode-hook-handler ()
-  (auto-fill-mode 0))
-
-(defun init-hatena-diary-mode ()
-  (require 'hatena-diary-mode)
-  (setq hatena-usrid "tailisland")
-  (add-hook 'hatena-diary-mode-hook
-            'hatena-diary-mode-hook-handler))
-
-;; Text modeを設定します。
-
-(defun text-mode-hook-handler ()
-  (auto-fill-mode t))
-
-(defun init-text-mode ()
-  (add-hook 'text-mode-hook
-            'text-mode-hook-handler))
 
 ;; これまでに定義した関数を呼び出して、実際の設定をします。
 
@@ -185,6 +185,6 @@
 (init-input-method)
 (init-anything)
 (init-ruby-mode)
-(init-emacs-lisp-mode)
-(init-hatena-diary-mode)
+(init-rinari)
 (init-text-mode)
+(init-emacs-lisp-mode)
