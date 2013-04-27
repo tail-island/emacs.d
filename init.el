@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
 
 (defun set-face ()
   (when window-system
@@ -122,6 +122,28 @@
   (define-key global-map (kbd "C-;") 'anything)
   (put 'upcase-region 'disabled nil))
 
+;; clojure-modeを設定します。
+
+(defun init-clojure-mode ()
+  (eval-after-load "clojure-mode"
+    '(progn
+       (put-clojure-indent 'thrown-with-msg?      'defun)
+       (put-clojure-indent 'thrown?               'defun)
+       (put-clojure-indent 'query                 'defun)
+       (put-clojure-indent 'execute!              'defun)
+       (put-clojure-indent 'hitokotonushi-session 'defun)
+       (put-clojure-indent 'weave-aspect          'defun)
+       )))
+
+;; nXML modeを設定します。
+
+(defun nxml-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-nxml-mode ()
+  (add-hook 'nxml-mode-hook
+            'nxml-mode-hook-handler))
+
 ;; Ruby modeを設定します。
 
 (defun ruby-mode-hook-handler ()
@@ -184,6 +206,8 @@
 
 (init-input-method)
 (init-anything)
+(init-clojure-mode)
+(init-nxml-mode)
 (init-ruby-mode)
 (init-rinari)
 (init-text-mode)
