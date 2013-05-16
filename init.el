@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 90))
 
 (defun set-face ()
   (when window-system
@@ -68,7 +68,10 @@
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
-  (setq-default line-spacing 2))
+  (when linux?
+    (menu-bar-mode 0))
+  (when mac?
+    (setq-default line-spacing 2)))
 
 ;; 動作を設定します。
 
@@ -142,15 +145,6 @@
     (hitokotonushi-session 'defun)  ; hitokotonushi
     (weave-aspect          'defun)
     (condp'                'defun)))
-
-;;   (eval-after-load "clojure-mode"
-;;     '(progn
-;;        (put-clojure-indent 'query                 'defun)
-;;        (put-clojure-indent 'execute!              'defun)
-;;        (put-clojure-indent 'hitokotonushi-session 'defun)
-;;        (put-clojure-indent 'weave-aspect          'defun)
-;;        (put-clojure-indent 'condp'                'defun)
-;; )))
 
 ;; nXML modeを設定します。
 
