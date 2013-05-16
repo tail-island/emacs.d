@@ -125,15 +125,32 @@
 ;; clojure-modeを設定します。
 
 (defun init-clojure-mode ()
-  (eval-after-load "clojure-mode"
-    '(progn
-       (put-clojure-indent 'thrown-with-msg?      'defun)
-       (put-clojure-indent 'thrown?               'defun)
-       (put-clojure-indent 'query                 'defun)
-       (put-clojure-indent 'execute!              'defun)
-       (put-clojure-indent 'hitokotonushi-session 'defun)
-       (put-clojure-indent 'weave-aspect          'defun)
-       )))
+  (require 'clojure-mode)
+  (define-clojure-indent
+    (thrown-with-msg?      'defun)
+    (thrown?               'defun)
+    (query                 'defun)  ; java.jdbc
+    (execute!              'defun)
+    (defroutes             'defun)  ; compojure
+    (GET                   2)
+    (POST                  2)
+    (PUT                   2)
+    (DELETE                2)
+    (HEAD                  2)
+    (ANY                   2)
+    (context               2)
+    (hitokotonushi-session 'defun)  ; hitokotonushi
+    (weave-aspect          'defun)
+    (condp'                'defun)))
+
+;;   (eval-after-load "clojure-mode"
+;;     '(progn
+;;        (put-clojure-indent 'query                 'defun)
+;;        (put-clojure-indent 'execute!              'defun)
+;;        (put-clojure-indent 'hitokotonushi-session 'defun)
+;;        (put-clojure-indent 'weave-aspect          'defun)
+;;        (put-clojure-indent 'condp'                'defun)
+;; )))
 
 ;; nXML modeを設定します。
 
