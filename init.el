@@ -85,7 +85,8 @@
 
 (defun set-indent ()
   (setq c-basic-offset    2)
-  (setq css-indent-offset 2))
+  (setq css-indent-offset 2)
+  (setq js-indent-level   2))
 
 ;; キーボードを設定します。
 
@@ -122,6 +123,35 @@
   (define-key global-map (kbd "C-;") 'anything)
   (put 'upcase-region 'disabled nil))
 
+;; clojure-modeを設定します。
+
+(defun init-clojure-mode ()
+  (require 'clojure-mode)
+  (define-clojure-indent
+    (cond                  0)
+    (as->                  2)
+    (cond->                1)
+    (cond->>               1)
+    (some->                1)
+    (some->>               1)
+    (thrown-with-msg?      2)
+    (thrown?               1)
+    (query                 1)
+    (execute!              1)
+    (db-transaction        1)
+    (defroutes             'defun)
+    (GET                   2)
+    (POST                  2)
+    (PUT                   2)
+    (DELETE                2)
+    (HEAD                  2)
+    (ANY                   2)
+    (context               2)
+    (hitokotonushi-session 0)
+    (form-for              4)
+    (weave-aspect          2)
+    (condp\'               1)))
+
 ;; Ruby modeを設定します。
 
 (defun ruby-mode-hook-handler ()
@@ -136,12 +166,14 @@
   (require 'inf-ruby)
   (add-hook 'ruby-mode-hook
             'ruby-mode-hook-handler)
-  (setq exec-path (append '("~/.rvm/bin") exec-path)))
+  (setq exec-path (append '("~/.rvm/bin") exec-path))
+  (setq ruby-deep-indent-paren-style nil))
 
 ;; Rinariを設定します。
 
 (defun rhtml-mode-hook-handler ()
-  (rinari-launch))
+  (rinari-launch)
+  (auto-fill-mode -1))
 
 (defun init-rinari ()
   (require 'rinari)
@@ -184,7 +216,8 @@
 
 (init-input-method)
 (init-anything)
-(init-ruby-mode)
-(init-rinari)
+(init-clojure-mode)
+;; (init-ruby-mode)
+;; (init-rinari)
 (init-text-mode)
 (init-emacs-lisp-mode)
