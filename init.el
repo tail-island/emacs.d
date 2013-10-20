@@ -57,7 +57,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 90))
 
 (defun set-face-for-windows ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 105))
@@ -190,6 +190,15 @@
     (weave-aspect          2)
     (condp\'               1)))
 
+;; nXML modeを設定します。
+
+(defun nxml-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-nxml-mode ()
+  (add-hook 'nxml-mode-hook
+            'nxml-mode-hook-handler))
+
 ;; Ruby modeを設定します。
 
 (defun ruby-mode-hook-handler ()
@@ -255,6 +264,7 @@
 (init-input-method)
 (init-anything)
 (init-clojure-mode)
+(init-nxml-mode)
 ;; (init-ruby-mode)
 ;; (init-rinari)
 (init-text-mode)
