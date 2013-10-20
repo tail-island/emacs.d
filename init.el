@@ -6,6 +6,9 @@
 (defvar linux?
   (eq system-type 'gnu/linux))
 
+(defvar windows?
+  (eq system-type 'windows-nt))
+
 ;; load-pathを設定します。
 
 (defun set-load-path ()
@@ -29,19 +32,21 @@
 
 ;; 言語を設定します。
 
-(defun set-language-for-japanese ()
-  (set-language-environment "Japanese")
-  (prefer-coding-system 'utf-8))
-
 (defun set-language-for-mac ()
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
   (setq locale-coding-system 'utf-8-hfs))
 
+(defun set-language-for-windows ()
+  (setq default-file-name-coding-system 'cp932))
+
 (defun set-language ()
-  (set-language-for-japanese)
+  (set-language-environment "Japanese")
+  (prefer-coding-system 'utf-8)
   (when mac?
-    (set-language-for-mac)))
+    (set-language-for-mac))
+  (when windows?
+    (set-language-for-windows)))
 
 ;; フォントを設定します。
 
@@ -54,21 +59,30 @@
 (defun set-face-for-linux ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
+(defun set-face-for-windows ()
+  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+
 (defun set-face ()
   (when window-system
     (when mac?
       (set-face-for-mac))
     (when linux?
-      (set-face-for-linux))))
+      (set-face-for-linux))
+    (when windows?
+      (set-face-for-windows))))
 
 ;; 見た目を設定します。
+
+(defun set-appearance-for-mac ()
+  (setq-default line-spacing 2))
 
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
-  (setq-default line-spacing 2))
+  (when mac?
+    (set-appearance-for-mac)))
 
 ;; 動作を設定します。
 
@@ -90,6 +104,11 @@
 
 ;; キーボードを設定します。
 
+(defun set-keyboard-for-mac ()
+  (define-key global-map (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
+  (setq ns-command-modifier 'meta)
+  (setq ns-alternate-modifier 'super))
+
 (defun set-keyboard ()
   (define-key global-map (kbd "RET") 'newline-and-indent)
   (define-key global-map (kbd "C-t") 'toggle-truncate-lines)
@@ -98,9 +117,7 @@
   (require 'dired)
   (define-key dired-mode-map (kbd "C-o") 'other-window)
   (when mac?
-    (define-key global-map (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
-    (setq ns-command-modifier 'meta)
-    (setq ns-alternate-modifier 'super)))
+    (set-keyboard-for-mac)))
 
 ;; Input Methodを設定します。
 
@@ -111,11 +128,22 @@
   (require 'mozc)
   (setq default-input-method "japanese-mozc"))
 
+(defun init-input-method-for-windows ()
+  (w32-ime-initialize)
+  (setq w32-ime-show-mode-line t)
+  (setq-default w32-ime-mode-line-state-indicator "[--]")
+  (setq w32-ime-mode-line-state-indicator "[--]")
+  (setq w32-ime-mode-line-state-inidicator-list
+        '("[--]" "[あ]" "[--]"))
+  (setq default-input-method "W32-IME"))
+
 (defun init-input-method ()
   (when mac?
     (init-input-method-for-mac))
   (when linux?
-    (init-input-method-for-linux)))
+    (init-input-method-for-linux))
+  (when windows?
+    (init-input-method-for-windows)))
 
 ;; anythingを設定します。
 
