@@ -6,6 +6,9 @@
 (defvar linux?
   (eq system-type 'gnu/linux))
 
+(defvar windows?
+  (eq system-type 'windows-nt))
+
 ;; load-pathを設定します。
 
 (defun set-load-path ()
@@ -29,19 +32,21 @@
 
 ;; 言語を設定します。
 
-(defun set-language-for-japanese ()
-  (set-language-environment "Japanese")
-  (prefer-coding-system 'utf-8))
-
 (defun set-language-for-mac ()
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
   (setq locale-coding-system 'utf-8-hfs))
 
+(defun set-language-for-windows ()
+  (setq default-file-name-coding-system 'cp932))
+
 (defun set-language ()
-  (set-language-for-japanese)
+  (set-language-environment "Japanese")
+  (prefer-coding-system 'utf-8)
   (when mac?
-    (set-language-for-mac)))
+    (set-language-for-mac))
+  (when windows?
+    (set-language-for-windows)))
 
 ;; フォントを設定します。
 
@@ -54,24 +59,40 @@
 (defun set-face-for-linux ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 90))
 
+(defun set-face-for-windows ()
+  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+
 (defun set-face ()
   (when window-system
     (when mac?
       (set-face-for-mac))
     (when linux?
-      (set-face-for-linux))))
+      (set-face-for-linux))
+    (when windows?
+      (set-face-for-windows))))
 
 ;; 見た目を設定します。
+
+(defun set-appearance-for-mac ()
+  (setq-default line-spacing 2))
+
+(defun set-appearance-for-linux ()
+  (menu-bar-mode 0))
+
+(defun set-appearance-for-windows ()
+  (menu-bar-mode 0))
 
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
-  (when linux?
-    (menu-bar-mode 0))
   (when mac?
-    (setq-default line-spacing 2)))
+    (set-appearance-for-mac))
+  (when linux?
+    (set-appearance-for-linux))
+  (when windows?
+    (set-appearance-for-windows)))
 
 ;; 動作を設定します。
 
@@ -93,6 +114,11 @@
 
 ;; キーボードを設定します。
 
+(defun set-keyboard-for-mac ()
+  (define-key global-map (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
+  (setq ns-command-modifier 'meta)
+  (setq ns-alternate-modifier 'super))
+
 (defun set-keyboard ()
   (define-key global-map (kbd "RET") 'newline-and-indent)
   (define-key global-map (kbd "C-t") 'toggle-truncate-lines)
@@ -101,9 +127,7 @@
   (require 'dired)
   (define-key dired-mode-map (kbd "C-o") 'other-window)
   (when mac?
-    (define-key global-map (kbd "M-c") 'kill-ring-save)  ; KeyRemap4MacBookがM-wをM-cに割り当てるので、再割当てします。
-    (setq ns-command-modifier 'meta)
-    (setq ns-alternate-modifier 'super)))
+    (set-keyboard-for-mac)))
 
 ;; Input Methodを設定します。
 
@@ -114,11 +138,22 @@
   (require 'mozc)
   (setq default-input-method "japanese-mozc"))
 
+(defun init-input-method-for-windows ()
+  (w32-ime-initialize)
+  (setq w32-ime-show-mode-line t)
+  (setq-default w32-ime-mode-line-state-indicator "[--]")
+  (setq w32-ime-mode-line-state-indicator "[--]")
+  (setq w32-ime-mode-line-state-inidicator-list
+        '("[--]" "[あ]" "[--]"))
+  (setq default-input-method "W32-IME"))
+
 (defun init-input-method ()
   (when mac?
     (init-input-method-for-mac))
   (when linux?
-    (init-input-method-for-linux)))
+    (init-input-method-for-linux))
+  (when windows?
+    (init-input-method-for-windows)))
 
 ;; anythingを設定します。
 
@@ -131,7 +166,6 @@
 (defun init-clojure-mode ()
   (require 'clojure-mode)
   (define-clojure-indent
-<<<<<<< HEAD
     (cond                  0)
     (as->                  2)
     (cond->                1)
@@ -144,13 +178,6 @@
     (execute!              1)
     (db-transaction        1)
     (defroutes             'defun)
-=======
-    (thrown-with-msg?      'defun)
-    (thrown?               'defun)
-    (query                 'defun)  ; java.jdbc
-    (execute!              'defun)
-    (defroutes             'defun)  ; compojure
->>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
     (GET                   2)
     (POST                  2)
     (PUT                   2)
@@ -158,15 +185,10 @@
     (HEAD                  2)
     (ANY                   2)
     (context               2)
-<<<<<<< HEAD
     (hitokotonushi-session 0)
     (form-for              4)
     (weave-aspect          2)
     (condp\'               1)))
-=======
-    (hitokotonushi-session 'defun)  ; hitokotonushi
-    (weave-aspect          'defun)
-    (condp'                'defun)))
 
 ;; nXML modeを設定します。
 
@@ -176,7 +198,6 @@
 (defun init-nxml-mode ()
   (add-hook 'nxml-mode-hook
             'nxml-mode-hook-handler))
->>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
 
 ;; Ruby modeを設定します。
 
@@ -243,13 +264,8 @@
 (init-input-method)
 (init-anything)
 (init-clojure-mode)
-<<<<<<< HEAD
+(init-nxml-mode)
 ;; (init-ruby-mode)
 ;; (init-rinari)
-=======
-(init-nxml-mode)
-(init-ruby-mode)
-(init-rinari)
->>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
 (init-text-mode)
 (init-emacs-lisp-mode)
