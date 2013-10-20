@@ -52,7 +52,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 105))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 90))
 
 (defun set-face ()
   (when window-system
@@ -68,7 +68,10 @@
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
-  (setq-default line-spacing 2))
+  (when linux?
+    (menu-bar-mode 0))
+  (when mac?
+    (setq-default line-spacing 2)))
 
 ;; 動作を設定します。
 
@@ -128,6 +131,7 @@
 (defun init-clojure-mode ()
   (require 'clojure-mode)
   (define-clojure-indent
+<<<<<<< HEAD
     (cond                  0)
     (as->                  2)
     (cond->                1)
@@ -140,6 +144,13 @@
     (execute!              1)
     (db-transaction        1)
     (defroutes             'defun)
+=======
+    (thrown-with-msg?      'defun)
+    (thrown?               'defun)
+    (query                 'defun)  ; java.jdbc
+    (execute!              'defun)
+    (defroutes             'defun)  ; compojure
+>>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
     (GET                   2)
     (POST                  2)
     (PUT                   2)
@@ -147,10 +158,25 @@
     (HEAD                  2)
     (ANY                   2)
     (context               2)
+<<<<<<< HEAD
     (hitokotonushi-session 0)
     (form-for              4)
     (weave-aspect          2)
     (condp\'               1)))
+=======
+    (hitokotonushi-session 'defun)  ; hitokotonushi
+    (weave-aspect          'defun)
+    (condp'                'defun)))
+
+;; nXML modeを設定します。
+
+(defun nxml-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-nxml-mode ()
+  (add-hook 'nxml-mode-hook
+            'nxml-mode-hook-handler))
+>>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
 
 ;; Ruby modeを設定します。
 
@@ -217,7 +243,13 @@
 (init-input-method)
 (init-anything)
 (init-clojure-mode)
+<<<<<<< HEAD
 ;; (init-ruby-mode)
 ;; (init-rinari)
+=======
+(init-nxml-mode)
+(init-ruby-mode)
+(init-rinari)
+>>>>>>> 5658e2a162eea0a20467cd7580c97e63362c945b
 (init-text-mode)
 (init-emacs-lisp-mode)
