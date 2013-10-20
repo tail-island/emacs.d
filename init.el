@@ -76,13 +76,23 @@
 (defun set-appearance-for-mac ()
   (setq-default line-spacing 2))
 
+(defun set-appearance-for-linux ()
+  (menu-bar-mode 0))
+
+(defun set-appearance-for-windows ()
+  (menu-bar-mode 0))
+
 (defun set-appearance ()
   (scroll-bar-mode 0)
   (tool-bar-mode 0)
   (fringe-mode 0)
   (column-number-mode t)
   (when mac?
-    (set-appearance-for-mac)))
+    (set-appearance-for-mac))
+  (when linux?
+    (set-appearance-for-linux))
+  (when windows?
+    (set-appearance-for-windows)))
 
 ;; 動作を設定します。
 
