@@ -63,6 +63,15 @@
   (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
 (defun set-face ()
+  (custom-set-faces
+   '(default ((t (:background "black" :foreground "white"))))
+   '(cursor ((((class color)
+               (background dark))
+              (:background "black"))
+             (((class color)
+               (background light))
+              (:background "white"))
+             (t ()))))
   (when window-system
     (when mac?
       (set-face-for-mac))
@@ -186,7 +195,7 @@
     (ANY                   2)
     (context               2)
     (hitokotonushi-session 0)
-    (form-for              4)
+    (form-for              1)
     (weave-aspect          2)
     (condp\'               1)))
 
