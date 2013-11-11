@@ -64,14 +64,7 @@
 
 (defun set-face ()
   (custom-set-faces
-   '(default ((t (:background "black" :foreground "white"))))
-   '(cursor ((((class color)
-               (background dark))
-              (:background "black"))
-             (((class color)
-               (background light))
-              (:background "white"))
-             (t ()))))
+   '(default ((t (:background "black" :foreground "white")))))
   (when window-system
     (when mac?
       (set-face-for-mac))
