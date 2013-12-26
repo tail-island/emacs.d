@@ -79,7 +79,8 @@
   (setq-default line-spacing 2))
 
 (defun set-appearance-for-linux ()
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  (setq-default line-spacing 2))
 
 (defun set-appearance-for-windows ()
   (menu-bar-mode 0))
@@ -218,6 +219,21 @@
   (setq exec-path (append '("~/.rvm/bin") exec-path))
   (setq ruby-deep-indent-paren-style nil))
 
+(defadvice ruby-indent-line (after unindent-closing-paren activate)
+  (let ((column (current-column))
+        indent offset)
+    (save-excursion
+      (back-to-indentation)
+      (let ((state (syntax-ppss)))
+        (setq offset (- column (current-column)))
+        (when (and (eq (char-after) ?\))
+                   (not (zerop (car state))))
+          (goto-char (cadr state))
+          (setq indent (current-indentation)))))
+    (when indent
+      (indent-line-to indent)
+      (when (> offset 0) (forward-char offset)))))
+
 ;; Rinariを設定します。
 
 (defun rhtml-mode-hook-handler ()
@@ -229,6 +245,16 @@
   (require 'rhtml-mode)
   (add-hook 'rhtml-mode-hook
             'rhtml-mode-hook-handler))
+
+;; coffee-modeを設定します。
+
+(defun coffee-mode-hook-handler ()
+  (set (make-local-variable 'tab-width) 2)
+  (setq coffee-tab-width 2))
+
+(defun init-coffee-mode ()
+  (add-hook 'coffee-mode-hook
+            'coffee-mode-hook-handler))
 
 ;; Text modeを設定します。
 
@@ -267,7 +293,8 @@
 (init-anything)
 (init-clojure-mode)
 (init-nxml-mode)
-;; (init-ruby-mode)
-;; (init-rinari)
+(init-ruby-mode)
+(init-rinari)
+(init-coffee-mode)
 (init-text-mode)
 (init-emacs-lisp-mode)
