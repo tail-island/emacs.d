@@ -193,6 +193,16 @@
     (weave-aspect          2)
     (condp\'               1)))
 
+;; Haskell-modeを設定します。
+
+(defun haskell-mode-hook-handler ()
+  (turn-on-haskell-indentation))
+
+(defun init-haskell-mode ()
+  (setq haskell-program-name "/usr/local/bin/ghci")
+  (add-hook 'haskell-mode-hook
+            'haskell-mode-hook-handler))
+
 ;; nXML modeを設定します。
 
 (defun nxml-mode-hook-handler ()
@@ -292,6 +302,7 @@
 (init-input-method)
 (init-anything)
 (init-clojure-mode)
+(init-haskell-mode)
 (init-nxml-mode)
 (init-ruby-mode)
 (init-rinari)
