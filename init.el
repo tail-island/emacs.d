@@ -9,6 +9,14 @@
 (defvar windows?
   (eq system-type 'windows-nt))
 
+;; package.el
+
+(defun init-package-el ()
+  (require 'package)
+  (add-to-list 'package-archives
+	       '("marmalade" . "http://marmalade-repo.org/packages/"))
+  (package-initialize))
+
 ;; load-pathを設定します。
 
 (defun set-load-path ()
@@ -19,16 +27,7 @@
 ;; exec-pathを設定します。
 
 (defun set-exec-path ()
-  (when mac?
-    (setq exec-path (append '("/opt/local/bin") exec-path))))
-
-;; package.el
-
-(defun init-package-el ()
-  (require 'package)
-  (add-to-list 'package-archives
-	       '("marmalade" . "http://marmalade-repo.org/packages/"))
-  (package-initialize))
+  (exec-path-from-shell-initialize))
 
 ;; 言語を設定します。
 
@@ -168,6 +167,7 @@
 
 (defun init-clojure-mode ()
   (require 'clojure-mode)
+  (put 'm/proxy\' 'clojure-backtracking-indent '((2)))
   (define-clojure-indent
     (cond                  0)
     (as->                  2)
@@ -191,7 +191,13 @@
     (hitokotonushi-session 0)
     (form-for              1)
     (weave-aspect          2)
-    (condp\'               1)))
+    (condp\'               1)
+    (this-as               1)
+    (keep-state            1)
+    (let-node-value        1)
+    (proxy\'               'defun)
+    )
+  )
 
 ;; Haskell-modeを設定します。
 
@@ -202,15 +208,6 @@
   (setq haskell-program-name "/usr/local/bin/ghci")
   (add-hook 'haskell-mode-hook
             'haskell-mode-hook-handler))
-
-;; nXML modeを設定します。
-
-(defun nxml-mode-hook-handler ()
-  (auto-fill-mode 0))
-
-(defun init-nxml-mode ()
-  (add-hook 'nxml-mode-hook
-            'nxml-mode-hook-handler))
 
 ;; Ruby modeを設定します。
 
@@ -266,15 +263,6 @@
   (add-hook 'coffee-mode-hook
             'coffee-mode-hook-handler))
 
-;; Text modeを設定します。
-
-(defun text-mode-hook-handler ()
-  (auto-fill-mode t))
-
-(defun init-text-mode ()
-  (add-hook 'text-mode-hook
-            'text-mode-hook-handler))
-
 ;; Emacs Lisp modeを設定します。
 
 (defun emacs-lisp-mode-hook-handler ()
@@ -285,13 +273,44 @@
   (add-hook 'emacs-lisp-mode-hook
             'emacs-lisp-mode-hook-handler))
 
-;; これまでに定義した関数を呼び出して、実際の設定をします。
+;; nXML modeを設定します。
 
-(set-load-path)
-(set-exec-path)
+(defun nxml-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-nxml-mode ()
+  (add-hook 'nxml-mode-hook
+            'nxml-mode-hook-handler))
+
+;; html-modeを設定します。
+
+(defun html-mode-hook-handler ()
+  (turn-off-auto-fill))
+
+(defun init-html-mode ()
+  (add-hook 'html-mode-hook
+            'html-mode-hook-handler))
+
+;; css-modeを設定します。
+(defun init-css-mode ()
+  (setq auto-mode-alist
+        (cons '("\\.css.scss\\'" . css-mode) auto-mode-alist)))
+
+;; text-modeを設定します。
+
+(defun text-mode-hook-handler ()
+  (auto-fill-mode t))
+
+(defun init-text-mode ()
+  (add-hook 'text-mode-hook
+            'text-mode-hook-handler))
+
+;; これまでに定義した関数を呼び出して、実際の設定をします。
 
 (init-package-el)
 
+(set-load-path)
+(set-exec-path)
 (set-language)
 (set-face)
 (set-appearance)
@@ -303,9 +322,11 @@
 (init-anything)
 (init-clojure-mode)
 (init-haskell-mode)
-(init-nxml-mode)
 (init-ruby-mode)
 (init-rinari)
 (init-coffee-mode)
-(init-text-mode)
 (init-emacs-lisp-mode)
+(init-nxml-mode)
+(init-html-mode)
+(init-css-mode)
+(init-text-mode)
