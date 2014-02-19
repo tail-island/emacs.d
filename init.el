@@ -27,7 +27,8 @@
 ;; exec-pathを設定します。
 
 (defun set-exec-path ()
-  (exec-path-from-shell-initialize))
+  (when mac?
+    (exec-path-from-shell-initialize)))
 
 ;; 言語を設定します。
 
