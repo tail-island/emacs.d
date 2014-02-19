@@ -167,7 +167,7 @@
 
 (defun init-clojure-mode ()
   (require 'clojure-mode)
-  (put 'm/proxy\' 'clojure-backtracking-indent '((2)))
+  (put 'm/letfn\' 'clojure-backtracking-indent '((2) 2))
   (define-clojure-indent
     (cond                  0)
     (as->                  2)
@@ -195,7 +195,7 @@
     (this-as               1)
     (keep-state            1)
     (let-node-value        1)
-    (proxy\'               'defun)
+    (letfn\'               1)
     )
   )
 
