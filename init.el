@@ -57,7 +57,7 @@
                                   (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 90))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
 
 (defun set-face-for-windows ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 105))
