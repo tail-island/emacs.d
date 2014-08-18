@@ -130,7 +130,10 @@
   (require 'dired)
   (define-key dired-mode-map (kbd "C-o") 'other-window)
   (when mac?
-    (set-keyboard-for-mac)))
+    (set-keyboard-for-mac))
+  (when linux?
+    (define-key global-map (kbd "<mouse-6>") 'scroll-right)
+    (define-key global-map (kbd "<mouse-7>") 'scroll-left)))
 
 ;; Input Methodを設定します。
 
@@ -331,3 +334,4 @@
 (init-html-mode)
 (init-css-mode)
 (init-text-mode)
+(put 'scroll-left 'disabled nil)
