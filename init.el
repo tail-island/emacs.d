@@ -14,7 +14,7 @@
 (defun init-package-el ()
   (require 'package)
   (add-to-list 'package-archives
-	       '("marmalade" . "http://marmalade-repo.org/packages/"))
+               '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
   (package-initialize))
 
 ;; load-pathを設定します。
@@ -126,7 +126,7 @@
   (define-key global-map (kbd "RET") 'newline-and-indent)
   (define-key global-map (kbd "C-t") 'toggle-truncate-lines)
   (define-key global-map (kbd "C-o") 'other-window)
-  (define-key global-map (kbd "M-y") 'anything-show-kill-ring)
+  (define-key global-map (kbd "M-y") 'helm-show-kill-ring)
   (require 'dired)
   (define-key dired-mode-map (kbd "C-o") 'other-window)
   (when mac?
@@ -161,10 +161,10 @@
   (when windows?
     (init-input-method-for-windows)))
 
-;; anythingを設定します。
+;; helmを設定します。
 
-(defun init-anything ()
-  (define-key global-map (kbd "C-;") 'anything)
+(defun init-helm ()
+  (define-key global-map (kbd "C-;") 'helm-for-files)
   (put 'upcase-region 'disabled nil))
 
 ;; clojure-modeを設定します。
@@ -201,6 +201,7 @@
     (let-node-value        1)
     (letfn\'               1)
     )
+  (setq nrepl-hide-special-buffers t)
   )
 
 ;; Haskell-modeを設定します。
@@ -208,8 +209,12 @@
 (defun haskell-mode-hook-handler ()
   (turn-on-haskell-indentation))
 
+(defun init-haskell-mode-for-mac ()
+  (setq haskell-program-name "/usr/local/bin/ghci"))
+
 (defun init-haskell-mode ()
-  (setq haskell-program-name "/usr/local/bin/ghci")
+  (when mac?
+    (init-haskell-mode-for-mac()))
   (add-hook 'haskell-mode-hook
             'haskell-mode-hook-handler))
 
@@ -323,7 +328,7 @@
 (set-keyboard)
 
 (init-input-method)
-(init-anything)
+(init-helm)
 (init-clojure-mode)
 (init-haskell-mode)
 (init-ruby-mode)
@@ -334,4 +339,3 @@
 (init-html-mode)
 (init-css-mode)
 (init-text-mode)
-(put 'scroll-left 'disabled nil)
