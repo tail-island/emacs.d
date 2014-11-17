@@ -27,7 +27,7 @@
 ;; exec-pathを設定します。
 
 (defun set-exec-path ()
-  (when mac?
+  (when (or mac? linux?)
     (exec-path-from-shell-initialize)))
 
 ;; 言語を設定します。
@@ -173,6 +173,7 @@
   (require 'clojure-mode)
   (put 'm/letfn\' 'clojure-backtracking-indent '((2) 2))
   (define-clojure-indent
+    (apply                 1)
     (cond                  0)
     (as->                  2)
     (cond->                1)
@@ -201,8 +202,7 @@
     (let-node-value        1)
     (letfn\'               1)
     )
-  (setq nrepl-hide-special-buffers t)
-  )
+  (setq nrepl-hide-special-buffers t))
 
 ;; Haskell-modeを設定します。
 
@@ -330,9 +330,9 @@
 (init-input-method)
 (init-helm)
 (init-clojure-mode)
-(init-haskell-mode)
+;; (init-haskell-mode)
 (init-ruby-mode)
-(init-rinari)
+;; (init-rinari)
 (init-coffee-mode)
 (init-emacs-lisp-mode)
 (init-nxml-mode)
