@@ -145,13 +145,10 @@
   (setq default-input-method "japanese-mozc"))
 
 (defun init-input-method-for-windows ()
-  (w32-ime-initialize)
-  (setq w32-ime-show-mode-line t)
+  (setq default-input-method "W32-IME")
   (setq-default w32-ime-mode-line-state-indicator "[--]")
-  (setq w32-ime-mode-line-state-indicator "[--]")
-  (setq w32-ime-mode-line-state-inidicator-list
-        '("[--]" "[あ]" "[--]"))
-  (setq default-input-method "W32-IME"))
+  (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
+  (w32-ime-initialize))
 
 (defun init-input-method ()
   (when mac?
