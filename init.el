@@ -13,8 +13,8 @@
 
 (defun init-package-el ()
   (require 'package)
-  (add-to-list 'package-archives
-               '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("melpa-stable" . "http://melpa-stable.milkbox.net/packages/"))
+  (add-to-list 'package-archives '("melpa"        . "http://melpa.milkbox.net/packages/"))
   (package-initialize))
 
 ;; load-pathを設定します。
@@ -27,7 +27,7 @@
 ;; exec-pathを設定します。
 
 (defun set-exec-path ()
-  (when mac?
+  (when (or mac? linux?)
     (exec-path-from-shell-initialize)))
 
 ;; 言語を設定します。
@@ -146,13 +146,10 @@
   (setq default-input-method "japanese-mozc"))
 
 (defun init-input-method-for-windows ()
-  (w32-ime-initialize)
-  (setq w32-ime-show-mode-line t)
+  (setq default-input-method "W32-IME")
   (setq-default w32-ime-mode-line-state-indicator "[--]")
-  (setq w32-ime-mode-line-state-indicator "[--]")
-  (setq w32-ime-mode-line-state-inidicator-list
-        '("[--]" "[あ]" "[--]"))
-  (setq default-input-method "W32-IME"))
+  (setq w32-ime-mode-line-state-indicator-list '("[--]" "[あ]" "[--]"))
+  (w32-ime-initialize))
 
 (defun init-input-method ()
   (when mac?
@@ -172,8 +169,11 @@
 
 (defun init-clojure-mode ()
   (require 'clojure-mode)
+  (setq nrepl-hide-special-buffers t)
+  (setq cider-show-error-buffer nil)
   (put 'm/letfn\' 'clojure-backtracking-indent '((2) 2))
   (define-clojure-indent
+    (apply                 1)
     (cond                  0)
     (as->                  2)
     (cond->                1)
@@ -201,11 +201,9 @@
     (keep-state            1)
     (let-node-value        1)
     (letfn\'               1)
-    )
-  (setq nrepl-hide-special-buffers t)
-  )
+    ))
 
-;; Haskell-modeを設定します。
+;; haskell-modeを設定します。
 
 (defun haskell-mode-hook-handler ()
   (turn-on-haskell-indentation))
@@ -214,47 +212,19 @@
   (add-hook 'haskell-mode-hook
             'haskell-mode-hook-handler))
 
-;; Ruby modeを設定します。
+;; enhanced-ruby-modeを設定します。
 
-(defun ruby-mode-hook-handler ()
-  (inf-ruby-keys))
+(defun init-enh-ruby-mode ()
+  )  ; Nothing to do. enh-ruby-mode is perfect!
 
-(defun init-ruby-mode ()
-  (require 'ruby-mode)
-  (add-to-list 'auto-mode-alist
-               '("\\.rb$" . ruby-mode))
-  (add-to-list 'interpreter-mode-alist
-               '("ruby"   . ruby-mode))
-  (require 'inf-ruby)
-  (add-hook 'ruby-mode-hook
-            'ruby-mode-hook-handler)
-  (setq exec-path (append '("~/.rvm/bin") exec-path))
-  (setq ruby-deep-indent-paren-style nil))
-
-(defadvice ruby-indent-line (after unindent-closing-paren activate)
-  (let ((column (current-column))
-        indent offset)
-    (save-excursion
-      (back-to-indentation)
-      (let ((state (syntax-ppss)))
-        (setq offset (- column (current-column)))
-        (when (and (eq (char-after) ?\))
-                   (not (zerop (car state))))
-          (goto-char (cadr state))
-          (setq indent (current-indentation)))))
-    (when indent
-      (indent-line-to indent)
-      (when (> offset 0) (forward-char offset)))))
-
-;; Rinariを設定します。
+;; rinariを設定します。
 
 (defun rhtml-mode-hook-handler ()
   (rinari-launch)
   (auto-fill-mode -1))
 
 (defun init-rinari ()
-  (require 'rinari)
-  (require 'rhtml-mode)
+  (global-rinari-mode)
   (add-hook 'rhtml-mode-hook
             'rhtml-mode-hook-handler))
 
@@ -327,8 +297,8 @@
 (init-helm)
 (init-clojure-mode)
 (init-haskell-mode)
-(init-ruby-mode)
-;; (init-rinari)
+(init-enh-ruby-mode)
+(init-rinari)
 (init-coffee-mode)
 (init-emacs-lisp-mode)
 (init-nxml-mode)
