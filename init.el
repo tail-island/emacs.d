@@ -51,10 +51,11 @@
 ;; フォントを設定します。
 
 (defun set-face-for-mac ()
-  (set-face-attribute 'default nil :family "Menlo" :height 120)
-  (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Hiragino Kaku Gothic Pro"))
-  (setq face-font-rescale-alist '((".*Menlo.*"    . 1.0)
-                                  (".*Hiragino.*" . 1.2))))
+  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
+  ;; (set-face-attribute 'default nil :family "Menlo" :height 120)
+  ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Hiragino Kaku Gothic Pro"))
+  ;; (setq face-font-rescale-alist '((".*Menlo.*"    . 1.0)
+  ;;                                 (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 120))
@@ -209,12 +210,7 @@
 (defun haskell-mode-hook-handler ()
   (turn-on-haskell-indentation))
 
-(defun init-haskell-mode-for-mac ()
-  (setq haskell-program-name "/usr/local/bin/ghci"))
-
 (defun init-haskell-mode ()
-  (when mac?
-    (init-haskell-mode-for-mac()))
   (add-hook 'haskell-mode-hook
             'haskell-mode-hook-handler))
 
@@ -332,7 +328,7 @@
 (init-clojure-mode)
 (init-haskell-mode)
 (init-ruby-mode)
-(init-rinari)
+;; (init-rinari)
 (init-coffee-mode)
 (init-emacs-lisp-mode)
 (init-nxml-mode)
