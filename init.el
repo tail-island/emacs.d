@@ -17,13 +17,6 @@
   (add-to-list 'package-archives '("melpa"        . "http://melpa.milkbox.net/packages/"))
   (package-initialize))
 
-;; load-pathを設定します。
-
-(defun set-load-path ()
-  (let ((default-directory (expand-file-name (concat user-emacs-directory "elisp"))))
-    (add-to-list 'load-path default-directory)
-    (normal-top-level-add-subdirs-to-load-path)))
-
 ;; exec-pathを設定します。
 
 (defun set-exec-path ()
@@ -52,10 +45,6 @@
 
 (defun set-face-for-mac ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 120))
-  ;; (set-face-attribute 'default nil :family "Menlo" :height 120)
-  ;; (set-fontset-font nil 'japanese-jisx0208 (font-spec :family "Hiragino Kaku Gothic Pro"))
-  ;; (setq face-font-rescale-alist '((".*Menlo.*"    . 1.0)
-  ;;                                 (".*Hiragino.*" . 1.2))))
 
 (defun set-face-for-linux ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 120))
@@ -284,7 +273,6 @@
 
 (init-package-el)
 
-(set-load-path)
 (set-exec-path)
 (set-language)
 (set-face)
