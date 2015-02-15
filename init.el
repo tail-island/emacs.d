@@ -160,7 +160,8 @@
   (require 'clojure-mode)
   (setq nrepl-hide-special-buffers t)
   (setq cider-show-error-buffer nil)
-  (put 'm/letfn\' 'clojure-backtracking-indent '((2) 2))
+  ;; for flux
+  (put 'macros/letfn\' 'clojure-backtracking-indent '((2) 2))
   (define-clojure-indent
     (apply                 1)
     (cond                  0)
@@ -171,25 +172,14 @@
     (some->>               1)
     (thrown-with-msg?      2)
     (thrown?               1)
-    (query                 1)
-    (execute!              1)
-    (db-transaction        1)
+    ;; for compojure
     (defroutes             'defun)
-    (GET                   2)
-    (POST                  2)
-    (PUT                   2)
-    (DELETE                2)
-    (HEAD                  2)
-    (ANY                   2)
     (context               2)
+    ;; for hitokotonushi
     (hitokotonushi-session 0)
     (form-for              1)
     (weave-aspect          2)
     (condp\'               1)
-    (this-as               1)
-    (keep-state            1)
-    (let-node-value        1)
-    (letfn\'               1)
     ))
 
 ;; haskell-modeを設定します。
