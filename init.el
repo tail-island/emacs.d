@@ -194,7 +194,8 @@
 ;; enhanced-ruby-modeを設定します。
 
 (defun init-enh-ruby-mode ()
-  )  ; Nothing to do. enh-ruby-mode is perfect!
+  (setq inf-ruby-implementations
+        '(("ruby" . "irb --inf-ruby-mode -r irb/completion -U"))))
 
 ;; rinariを設定します。
 
