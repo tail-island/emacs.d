@@ -185,7 +185,10 @@
 ;; haskell-modeを設定します。
 
 (defun haskell-mode-hook-handler ()
-  (turn-on-haskell-indentation))
+  (require 'haskell-interactive-mode)
+  (require 'haskell-process)
+  (interactive-haskell-mode)
+  (haskell-indentation-mode))
 
 (defun init-haskell-mode ()
   (add-hook 'haskell-mode-hook
