@@ -263,6 +263,15 @@
   (add-hook 'text-mode-hook
             'text-mode-hook-handler))
 
+;; markdown-modeを設定します。
+
+(defun markdown-mode-hook-handler ()
+  (auto-fill-mode 0))
+
+(defun init-markdown-mode ()
+  (add-hook 'markdown-mode-hook
+            'markdown-mode-hook-handler))
+
 ;; これまでに定義した関数を呼び出して、実際の設定をします。
 
 (init-package-el)
@@ -287,3 +296,4 @@
 (init-html-mode)
 (init-css-mode)
 (init-text-mode)
+(init-markdown-mode)
