@@ -53,8 +53,6 @@
   (set-face-attribute 'default nil :family "VL Gothic" :height 105))
 
 (defun set-face ()
-  (custom-set-faces
-   '(default ((t (:background "black" :foreground "white")))))
   (when window-system
     (when mac?
       (set-face-for-mac))
@@ -66,14 +64,20 @@
 ;; 見た目を設定します。
 
 (defun set-appearance-for-mac ()
+  (custom-set-faces
+   '(default ((t (:background "black" :foreground "white")))))
   (setq-default line-spacing 2))
 
 (defun set-appearance-for-linux ()
   (menu-bar-mode 0)
+  (custom-set-faces
+   '(default ((t (:background "#300a24" :foreground "white")))))
   (setq-default line-spacing 2))
 
 (defun set-appearance-for-windows ()
-  (menu-bar-mode 0))
+  (menu-bar-mode 0)
+  (custom-set-faces
+   '(default ((t (:background "black" :foreground "white"))))))
 
 (defun set-appearance ()
   (scroll-bar-mode 0)
