@@ -127,7 +127,8 @@
     (set-keyboard-for-mac))
   (when linux?
     (define-key global-map (kbd "<mouse-6>") 'scroll-right)
-    (define-key global-map (kbd "<mouse-7>") 'scroll-left)))
+    (define-key global-map (kbd "<mouse-7>") 'scroll-left)
+    (put 'scroll-left 'disabled nil)))
 
 ;; Input Methodを設定します。
 
@@ -164,8 +165,6 @@
   (require 'clojure-mode)
   (setq nrepl-hide-special-buffers t)
   (setq cider-show-error-buffer nil)
-  ;; for flux
-  (put 'macros/letfn\' 'clojure-backtracking-indent '((2) 2))
   (define-clojure-indent
     (apply                 1)
     (cond                  0)
@@ -179,12 +178,17 @@
     ;; for compojure
     (defroutes             'defun)
     (context               2)
-    ;; for hitokotonushi
-    (hitokotonushi-session 0)
-    (form-for              1)
-    (weave-aspect          2)
-    (condp\'               1)
     ))
+
+;; c++-modeを設定します。
+
+(defun c++-mode-hook-handler ()
+  (c-set-style "bsd")
+  (setq c-basic-offset 2))
+
+(defun init-c++-mode ()
+  (add-hook 'c++-mode-hook
+            'c++-mode-hook-handler))
 
 ;; haskell-modeを設定します。
 
@@ -254,6 +258,7 @@
             'html-mode-hook-handler))
 
 ;; css-modeを設定します。
+
 (defun init-css-mode ()
   (setq auto-mode-alist
         (cons '("\\.css.scss\\'" . css-mode) auto-mode-alist)))
@@ -276,6 +281,11 @@
   (add-hook 'markdown-mode-hook
             'markdown-mode-hook-handler))
 
+;; slime-rosを設定します。
+
+(defun init-slime-ros ()
+  (require 'slime-config "/opt/ros/indigo/share/slime_ros/slime-config.el"))
+
 ;; これまでに定義した関数を呼び出して、実際の設定をします。
 
 (init-package-el)
@@ -290,7 +300,9 @@
 
 (init-input-method)
 (init-helm)
+
 (init-clojure-mode)
+(init-c++-mode)
 (init-haskell-mode)
 (init-enh-ruby-mode)
 (init-rinari)
@@ -301,3 +313,4 @@
 (init-css-mode)
 (init-text-mode)
 (init-markdown-mode)
+(init-slime-ros)
