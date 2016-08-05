@@ -44,7 +44,7 @@
 ;; フォントを設定します。
 
 (defun set-face-for-mac ()
-  (set-face-attribute 'default nil :family "VL Gothic" :height 120))
+  (set-face-attribute 'default nil :family "Ricty Diminished" :height 120))
 
 (defun set-face-for-linux ()
   (set-face-attribute 'default nil :family "VL Gothic" :height 120))
@@ -167,7 +167,7 @@
   (setq cider-repl-display-help-banner nil)
   (setq cider-show-error-buffer nil)
   (define-clojure-indent
-    ;; (apply                 1)
+    (apply                 1)
     ;; (cond                  0)
     ;; (as->                  2)
     ;; (cond->                1)
