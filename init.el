@@ -100,7 +100,8 @@
   (setq make-backup-files nil)
   (setq auto-save-default nil)
   (when linux?
-    (setq x-select-enable-clipboard t)))
+    (setq x-select-enable-clipboard t))
+  (add-hook 'before-save-hook 'delete-trailing-whitespace))
 
 ;; インデントを設定します。
 
@@ -168,14 +169,6 @@
   (setq cider-show-error-buffer nil)
   (define-clojure-indent
     (apply                 1)
-    ;; (cond                  0)
-    ;; (as->                  2)
-    ;; (cond->                1)
-    ;; (cond->>               1)
-    ;; (some->                1)
-    ;; (some->>               1)
-    ;; (thrown-with-msg?      2)
-    ;; (thrown?               1)
     ;; for compojure
     (defroutes             'defun)
     (context               2)
@@ -190,6 +183,12 @@
 (defun init-c++-mode ()
   (add-hook 'c++-mode-hook
             'c++-mode-hook-handler))
+
+;; elpyを設定します。
+
+(defun init-elpy ()
+  (elpy-enable)
+  (pyvenv-activate "~/Documents/Projects/python_ws"))
 
 ;; haskell-modeを設定します。
 
@@ -304,14 +303,14 @@
 
 (init-clojure-mode)
 (init-c++-mode)
-(init-haskell-mode)
-(init-enh-ruby-mode)
-(init-rinari)
-(init-coffee-mode)
+(init-elpy)
+;; (init-haskell-mode)
+;; (init-enh-ruby-mode)
+;; (init-rinari)
+;; (init-coffee-mode)
 (init-emacs-lisp-mode)
 (init-nxml-mode)
 (init-html-mode)
 (init-css-mode)
 (init-text-mode)
 (init-markdown-mode)
-;; (init-slime-ros)
